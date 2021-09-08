@@ -2,6 +2,7 @@ package edu.iis.mto.oven;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -87,7 +88,16 @@ class OvenTest {
 
     @Test
     void shouldStartBakingWithCorrectTemperature() {
-        fail("unimplemented");
+        int initialTemp = 100;
+
+        bakingProgram = BakingProgram.builder()
+                .withInitialTemp(initialTemp)
+                .withStages(programStages)
+                .build();
+
+        oven.runProgram(bakingProgram);
+
+        assertEquals(initialTemp, bakingProgram.getInitialTemp());
     }
 
     @Test
