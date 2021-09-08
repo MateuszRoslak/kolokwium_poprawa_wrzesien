@@ -101,8 +101,23 @@ class OvenTest {
     }
 
     @Test
-    void shouldInvokeHeatMethodWhenBakingWithHeater() {
-        fail("unimplemented");
+    void shouldInvokeHeatMethodWhenBakingWithHeater() throws HeatingException {
+        List<ProgramStage> programStages = List.of(
+                ProgramStage.builder()
+                        .withStageTime(30)
+                        .withHeat(HeatType.GRILL)
+                        .withTargetTemp(240)
+                        .build()
+        );
+
+        bakingProgram = BakingProgram.builder()
+                .withInitialTemp(180)
+                .withStages(programStages)
+                .build();
+
+        oven.runProgram(bakingProgram);
+
+        verify(heatingModule, times(1)).grill(any(HeatingSettings.class));
     }
 
     @Test
