@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +68,21 @@ class OvenTest {
 
     @Test
     void shouldNotInvokeOvenFanWhenBakingWithThermalCircuitOff() {
-        fail("unimplemented");
+        List<ProgramStage> programStages = List.of(
+                ProgramStage.builder()
+                        .withStageTime(30)
+                        .withHeat(HeatType.GRILL)
+                        .withTargetTemp(240)
+                        .build()
+        );
+
+        bakingProgram = BakingProgram.builder()
+                .withInitialTemp(180)
+                .withStages(programStages)
+                .build();
+
+        oven.runProgram(bakingProgram);
+        verify(fan, times(0)).on();
     }
 
     @Test
