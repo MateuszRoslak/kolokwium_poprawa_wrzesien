@@ -3,6 +3,8 @@ package edu.iis.mto.oven;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +62,8 @@ class OvenTest {
 
     @Test
     void shouldThrowHeatingExceptionWhenProblemWithThermalCircuitOccurred() throws HeatingException {
-        fail("unimplemented");
+        doThrow(HeatingException.class).when(heatingModule).termalCircuit(any(HeatingSettings.class));
+        Assertions.assertThrows(OvenException.class, () -> oven.runProgram(bakingProgram));
     }
 
     @Test
