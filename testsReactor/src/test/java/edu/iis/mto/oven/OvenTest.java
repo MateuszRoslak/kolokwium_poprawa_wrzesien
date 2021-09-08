@@ -139,4 +139,11 @@ class OvenTest {
 
         verify(heatingModule, times(1)).grill(any(HeatingSettings.class));
     }
+
+    @Test
+    void shouldInvokeFanOnAndOffOnceWhenBakingWithThermalCircuitOn() {
+        oven.runProgram(bakingProgram);
+        verify(fan, times(1)).on();
+        verify(fan, times(1)).off();
+    }
 }
